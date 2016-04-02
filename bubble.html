@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<title>Parallel id  x y </title>
+<link rel="stylesheet" type="text/css" href="parsets.css" media="screen"/>
+<body id="vis">
+<h1> i am working.</h1>
+<script src="d3.min.js"></script>
+<script src="d3.parsets.js"></script>
+<script src="highlight.min.js"></script>
+<script>
+d3.csv("test.csv", function(error, csv) {
+  var id1=[];
+  var id2=[];
+  var id3=[];
+  var idtemp=[];
+  var id=[];
+  csv.forEach(function(d){
+  id1.push(d.id);});
+  d3.csv("test1.csv",function(error,csvdata2){
+  csvdata2.forEach(function(d){id2.push(d.id);});
+  d3.csv("test2.csv",function(error,csvdata3){
+  
+  csvdata3.forEach(function(d){id3.push(d.id);});
+ for (var i=0;i<id1.length;i++)
+{  for (var j=0;j<id2.length;i++)
+{    if (id1[i]==id2[j]){idtemp.push(d1[i]);}
+  }}
+  for (var i=0;i<idtemp.length;i++)
+{  for (var j=0;j<id3.length;i++)
+{    if (idtemp[i]==id3[j]){id.push(idtemp[i]);}
+  }}
+  console.log(id);
+ 
+  
+});});});
+</script>
