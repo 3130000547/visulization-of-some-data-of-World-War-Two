@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<style>
+body{
+ font-weight:bold;
+}
+.axis path, .axis line {
+ fill: none;
+ stroke: #000;
+ shape-rendering: crispEdges;
+}
+</style>
+</head>
+
+<body>
+<a herf="meiguo">USA</a>
+
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://static.mentful.com/gantt-chart-d3v2.js"></script>
+<script>
+//简体中文本地化
+var zh = d3.locale({
+ decimal: ".",
+ thousands: ",",
+ grouping: [3],
+ currency: ["¥", ""],
+ dateTime: "%a %b %e %X %Y",
+ date: "%Y/%-m/%-d",
+ time: "%H:%M:%S",
+ periods: ["上午", "下午"],
+ days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+ shortDays: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+ months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+ shortMonths: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+});
+//svg宽，高
+var width = 1000,height = 500;
+//时间比例尺
+
+
+d3.csv("data.csv",function(error,csv){
+var parseDate = d3.time.format("%y/%b/%d").parse;
+var dataset=[];
+var xMark=[];
+var xDuration=[];
+var xdate=[];
+csv.forEach(function(d){
+dataset.push(parseFloat(d.value));
+xMark.push(d.NAMEB);
+xDuration.push(d.Duration);
+xdate.push(parseDate(d.date));
+
+});
+var timeScale = d3.time.scale().domain(d3.extent(csv,funtion(d){return xdate;})).range([0,width-40]);
+ //.domain([new Date(1939, 9, 1), new Date(1945, 8, 1)])
+ //.range([0, width-40]); //这边的时间比例尺没有问题
+
+//时间轴
+var axis = d3.svg.axis()
+.scale(timeScale)
+.tickFormat(zh.timeFormat("%Y年%b"))
+.orient("bottom") ;
+//添加时间轴 
+
+var rectHeight = 10;	//每个矩形所占的像素高度(包括空白)
+
+		svg.selectAll("rect")
+			.data(xdate)
+			.enter()
+			.append("rect")
+			.attr("x",1)
+			.attr("y",function(d,i){
+				return -i * rectHeight;
+			})
+			.attr("width",function(d){
+				return timeScale(d);
+			})
+			.attr("height",rectHeight-2)
+			.attr("fill","steelblue");
+			
+
+   
+   
+		 
+ var svg = d3.select("body").append("svg")
+ .attr("width", width+200)
+ .attr("height", height)
+ .append("g")
+ .attr("class", "axis")
+ .attr("transform", "translate(" + 20 + "," + height/2 + ")")
+ .call(axis);
+//旋转文字
+d3.selectAll('g.tick text').attr('transform','translate(30,20)rotate(30)');
+//var task=[{"startDate":new Date ("Stem 01 1939"),"endDate":new Date("Aug 08 1945"),"taskName":" VS NAMEB"}];
+});
+</script>
+
+
+
+
+
+
+
