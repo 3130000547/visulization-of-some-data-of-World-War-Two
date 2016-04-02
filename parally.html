@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<title>Parallel id  x y </title>
+<link rel="stylesheet" type="text/css" href="parsets.css" media="screen"/>
+<body id="vis">
+<h1> i am working.</h1>
+<script src="d3.min.js"></script>
+<script src="d3.parsets.js"></script>
+<script src="highlight.min.js"></script>
+<script>
+var chart = d3.parsets()
+      .dimensions(["NAMEA", "ORIGNATA","NAMEB"]);
+
+var vis = d3.select("#vis").append("svg")
+    .attr("width", chart.width())
+    .attr("height", chart.height());
+var partition = d3.layout.partition()
+    .sort(null)
+    .size([chart.width(), chart.height() * 5 / 4])
+    .children(function(d) { return d.children ? d3.values(d.children) : null; })
+    .value(function(d) { return d.count; });
+
+  
+
+
+
+
+d3.csv("mid20.csv", function(error, csv) {
+  vis.datum(csv).call(chart);
+  
+  /*vis.datum(csv).call(chart
+        .value(csv[0].hasOwnProperty("x") ? function(d) { return +d.x; } : 1)
+        .dimensions(function(d) { return d3.keys(d[0]).filter(function(d) { return d.x !== 3; }).sort(); }));*/
+  
+});//已经建立图表
+
+
+
+
+ </script>
+ </body>
+ </html>

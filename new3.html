@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<style>
+body{
+ font-weight:bold;
+}
+.axis path, .axis line {
+ fill: none;
+ stroke: #000;
+ shape-rendering: crispEdges;
+}
+</style>
+</head>
+
+<body>
+<a herf="meiguo">USA</a>
+
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://static.mentful.com/gantt-chart-d3v2.js"></script>
+<script>
+var margin = {定义好就可以把magin.top
+	top : 20,
+	right : 40,
+	bottom : 20,
+	left : 150
+    };
+
+d3.csv("data.csv",function(error,csv){
+var dataset=[];
+var parseDate = d3.time.format("%y/%b/%d").parse;
+var xMark=[];
+var xDuration=[];
+var xdate=[];
+csv.forEach(function(d){
+dataset.push(parseFloat(d.value));
+xMark.push(d.NAMEB);
+xDuration.push(d.Duration);
+
+
+
+});//读取数据
+
+//var rectHeight = 10;	//每个矩形所占的像素高度(包括空白)
+
+   
+   var x = d3.time.scale().domain([new Date(1939, 9, 1), new Date(1945, 8, 1)])
+ .range([0, width-40]) .clamp(true);//x轴是这样的
+var y = d3.scale.linear().domain(0,50)range([height, 0]);
+   //var rectTransform = function(d) {
+	//return "translate(" + x(xenddate) + "," + y(xMark) + ")";
+    //};
+    
+ var svg = d3.select("body").append("svg")
+ .attr("width", width+200)
+ .attr("height", height)
+ .append("g")//添加坐标
+ .attr("class", "Axisx")
+ .attr("transform", "translate(" + 20 + "," + height/2 + ")")
+ .call(Axisx);
+ .append("g")
+ .attr("class","AxisY")
+ .call(AxisY);
+//旋转文字
+d3.selectAll('AxisX').attr('transform','translate(30,20)rotate(30)');
+//var task=[{"startDate":new Date ("Stem 01 1939"),"endDate":new Date("Aug 08 1945"),"taskName":" VS NAMEB"}];
+/*svg.selectAll("rect")
+	 .data(xdate,xMark, xenddate).enter()
+	 .append("rect")
+	 .attr("rx", 5)
+         .attr("ry", 5)
+	 .attr("y", 0)
+	 .attr("transform", 20)
+	 .attr("height",  10)
+	 .attr("width", function(d) { 
+	     return (xenddate - xdate); 
+		 
+	     });*/
+var valueline=d3.svg.line().x(function(d){return x(xDate);})
+.y(function(d){return 20;});
+		 });
+ 
+	
+</script>
+
+
+
+
+
+
+
